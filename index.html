@@ -7,42 +7,34 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
     <style>
-        /* ==================== CIRCULAR LAYOUT (REFERENCED FROM FIRE LAB) ==================== */
-        .circle-container {
+        /* ==================== CENTRAL FRAME (SQUARE BOX) ==================== */
+        .central-frame {
             position: absolute;
             top: 50%;
             left: 55%;
             transform: translate(-50%, -50%);
-            width: 950px;
-            height: 950px;
-            z-index: 13;
+            width: 800px;
+            height: 650px;
+            border: 2px dashed rgba(100, 200, 255, 0.35);
+            border-radius: 16px;
+            z-index: 12;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
             animation: modulesAppear 1s ease 1.5s forwards;
             opacity: 0;
+            background: rgba(10, 30, 60, 0.2);
+            backdrop-filter: blur(5px);
         }
 
-        @keyframes modulesAppear {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -45%) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        /* Central Title */
-        .circle-title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .lab-title {
             text-align: center;
-            z-index: 2;
-            pointer-events: none;
+            margin-bottom: 40px;
         }
 
-        .circle-title h1 {
+        .lab-title h1 {
             font-size: 2.8rem;
             font-weight: 900;
             text-shadow: 
@@ -54,11 +46,11 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: 2px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .circle-title .subtitle {
-            font-size: 1.2rem;
+        .lab-title .subtitle {
+            font-size: 1.1rem;
             color: rgba(180, 230, 255, 0.9);
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
             letter-spacing: 4px;
@@ -66,34 +58,32 @@
             font-style: italic;
         }
 
-        /* Module Cards */
-        .module-card {
-            position: absolute;
-            width: 190px;
-            height: 220px;
-            background: linear-gradient(145deg, 
-                rgba(30, 80, 120, 0.92), 
-                rgba(20, 60, 100, 0.88)
-            );
-            backdrop-filter: blur(12px);
-            border: 2px solid rgba(100, 200, 255, 0.5);
-            border-radius: 20px;
-            padding: 20px 15px 18px;
-            cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            box-shadow: 0 8px 25px rgba(0, 100, 200, 0.35);
-            overflow: hidden;
-            z-index: 3;
-            pointer-events: auto;
+        /* ==================== MODULE BUTTONS (5 around square) ==================== */
+        .modules-grid {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
-        .module-card::before {
+        .module-btn {
+            position: absolute;
+            background: linear-gradient(145deg, 
+                rgba(30, 80, 120, 0.85), 
+                rgba(20, 60, 100, 0.8)
+            );
+            border: 2px solid rgba(100, 200, 255, 0.3);
+            border-radius: 14px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(0, 50, 100, 0.3);
+            transform-origin: center center;
+            min-width: 180px;
+            overflow: hidden;
+        }
+
+        .module-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -102,90 +92,64 @@
             height: 3px;
             background: linear-gradient(90deg, 
                 transparent 0%, 
-                rgba(0, 180, 255, 0.9) 50%, 
+                rgba(0, 200, 255, 0.7) 50%, 
                 transparent 100%
             );
             transition: all 0.4s ease;
         }
 
-        .module-card:hover {
+        .module-btn:hover {
             background: linear-gradient(145deg, 
                 rgba(40, 100, 160, 0.95), 
                 rgba(30, 80, 130, 0.92)
             );
-            border-color: rgba(100, 220, 255, 0.9);
+            border-color: rgba(100, 220, 255, 0.8);
             box-shadow: 
-                0 18px 45px rgba(0, 120, 220, 0.55),
-                0 0 35px rgba(0, 180, 255, 0.3);
-            z-index: 10;
+                0 15px 40px rgba(0, 120, 220, 0.5),
+                0 0 25px rgba(0, 180, 255, 0.3);
+            transform: scale(1.06);
         }
 
-        .module-card:hover::before {
+        .module-btn:hover::before {
             height: 100%;
             background: linear-gradient(135deg, 
-                rgba(0, 150, 255, 0.3), 
-                rgba(0, 200, 255, 0.2)
+                rgba(0, 150, 255, 0.2), 
+                rgba(0, 200, 255, 0.15)
             );
         }
 
-        .module-card .module-icon {
-            font-size: 2.8rem;
-            line-height: 1;
-            filter: drop-shadow(0 3px 7px rgba(0, 150, 255, 0.5));
-            transition: transform 0.3s ease;
-        }
-
-        .module-card:hover .module-icon {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        .module-card h3 {
+        .module-btn h3 {
             font-size: 1rem;
             font-weight: 700;
             color: #fff;
-            text-shadow: 0 2px 8px rgba(0, 150, 255, 0.6);
-            line-height: 1.2;
-            margin: 0;
-            letter-spacing: 0.3px;
+            text-shadow: 0 2px 8px rgba(0, 150, 255, 0.5);
+            line-height: 1.3;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
         }
 
-        .module-card p {
-            font-size: 0.75rem;
+        .module-btn p {
+            font-size: 0.7rem;
             color: rgba(180, 230, 255, 0.85);
-            margin: 0;
-            line-height: 1.2;
+            line-height: 1.3;
+            position: relative;
+            z-index: 2;
         }
 
-        .module-tag {
-            font-size: 0.65rem;
-            background: rgba(0, 119, 182, 0.65);
-            padding: 4px 12px;
-            border-radius: 12px;
-            color: #ffffff;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            margin-top: 4px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(100, 200, 255, 0.5);
-        }
-
-        /* Circle positions - 5 modules evenly spaced */
-        /* Radius: 370px */
-        .module-1 { top: calc(50% - 385px); left: 50%; transform: translate(-50%, -50%); }
-        .module-2 { top: calc(50% - 190px); left: calc(50% + 338px); transform: translate(-50%, -50%); }
-        .module-3 { top: calc(50% + 230px); left: calc(50% + 290px); transform: translate(-50%, -50%); }
-        .module-4 { top: calc(50% + 365px); left: calc(50% - 50px); transform: translate(-50%, -50%); }
-        .module-5 { top: calc(50% - 60px); left: calc(50% - 375px); transform: translate(-50%, -50%); }
-
-        .module-1:hover, .module-2:hover, .module-3:hover, .module-4:hover, .module-5:hover {
-            transform: translate(-50%, -50%) scale(1.08);
-        }
+        /* Positioning 5 buttons around the square */
+        .module-btn:nth-child(1) { /* Top Left */ top: 0; left: 0; }
+        .module-btn:nth-child(2) { /* Top Right */ top: 0; right: 0; }
+        .module-btn:nth-child(3) { /* Middle Left */ top: 50%; transform: translateY(-50%); left: 0; }
+        .module-btn:nth-child(4) { /* Middle Right */ top: 50%; transform: translateY(-50%); right: 0; }
+        .module-btn:nth-child(5) { /* Bottom Center */ bottom: 0; left: 50%; transform: translateX(-50%); }
 
         /* ==================== CONTENT STYLING ==================== */
         .modal-content h4 {
             color: #48CAE4;
             font-size: 1.2rem;
-            margin: 25px 0 12px;
+            margin-top: 25px;
+            margin-bottom: 12px;
             text-shadow: 0 2px 10px rgba(72, 202, 228, 0.3);
         }
 
@@ -200,52 +164,9 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
-        .modal-content ul {
-            padding-left: 25px;
-            margin: 15px 0;
-        }
-
-        .modal-content li {
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-        }
-
-        .modal-content .highlight {
-            color: #90E0EF;
-            font-weight: 600;
-        }
-
-        /* ==================== RESPONSIVE ==================== */
-        @media (max-width: 1100px) {
-            .circle-container { width: 720px; height: 720px; }
-            .circle-title h1 { font-size: 2.2rem; }
-            .module-card { width: 160px; height: 190px; padding: 18px 12px; }
-            .module-card .module-icon { font-size: 2.2rem; }
-            .module-card h3 { font-size: 0.9rem; }
-            .module-card p { font-size: 0.7rem; }
-            .module-1 { top: calc(50% - 285px); }
-            .module-2 { top: calc(50% - 148px); left: calc(50% + 258px); }
-            .module-3 { top: calc(50% + 178px); left: calc(50% + 222px); }
-            .module-4 { top: calc(50% + 275px); left: calc(50% - 42px); }
-            .module-5 { top: calc(50% - 52px); left: calc(50% - 282px); }
-        }
-
-        @media (max-width: 768px) {
-            .circle-container { width: 520px; height: 520px; }
-            .circle-title h1 { font-size: 1.6rem; }
-            .circle-title .subtitle { font-size: 0.9rem; }
-            .module-card { width: 130px; height: 155px; padding: 14px 10px; border-radius: 16px; }
-            .module-card .module-icon { font-size: 1.8rem; }
-            .module-card h3 { font-size: 0.75rem; }
-            .module-card p { display: none; }
-            .module-tag { font-size: 0.55rem; padding: 3px 8px; }
-            .module-1 { top: calc(50% - 206px); }
-            .module-2 { top: calc(50% - 108px); left: calc(50% + 186px); }
-            .module-3 { top: calc(50% + 128px); left: calc(50% + 160px); }
-            .module-4 { top: calc(50% + 198px); left: calc(50% - 32px); }
-            .module-5 { top: calc(50% - 40px); left: calc(50% - 204px); }
-        }
+        .modal-content ul { padding-left: 25px; margin: 15px 0; }
+        .modal-content li { margin-bottom: 10px; color: rgba(255, 255, 255, 0.9); line-height: 1.6; }
+        .modal-content .highlight { color: #90E0EF; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -260,70 +181,61 @@
     <!-- AI Chat Bubble -->
     <div class="chat-bubble" id="aiBubble">
         <div class="bubble-content">
-            <p id="aiMessage">Welcome to the Synchrotron Radiation Laboratory! I'm Dr. Qian Xuesen. Think of this place as a super microscope that can see atoms!</p>
+            <p id="aiMessage">Welcome to the Synchrotron Radiation Laboratory! I'm Dr. Qian Xuesen. Think of this place as a super microscope!</p>
         </div>
         <div class="bubble-arrow"></div>
     </div>
     
-    <!-- Circular Layout: Title in Center, 5 Modules Around -->
-    <div class="circle-container" id="circleContainer">
-        <!-- Central Title -->
-        <div class="circle-title">
+    <!-- Central Frame with 5 Modules -->
+    <div class="central-frame">
+        <div class="lab-title">
             <h1>🔬 Synchrotron Lab</h1>
             <p class="subtitle">See the Invisible · Discover the Future</p>
         </div>
         
-        <!-- Module 1: Core Home (Top - 0°) -->
-        <div class="module-card module-1" data-module="overview">
-            <div class="module-icon">🏠</div>
-            <h3>Core Homepage</h3>
-            <p>Lab Overview & Our Mission</p>
-            <span class="module-tag">AI Explains</span>
+        <div class="modules-grid">
+            <!-- I. Core Homepage -->
+            <div class="module-btn" data-module="overview">
+                <h3>Core Homepage</h3>
+                <p>Lab Overview & Our Mission</p>
+            </div>
+            
+            <!-- II. Science Cognition -->
+            <div class="module-btn" data-module="science">
+                <h3>Science Cognition</h3>
+                <p>Light, Equipment & Research</p>
+            </div>
+            
+            <!-- III. Visit & Tour -->
+            <div class="module-btn" data-module="visit">
+                <h3>Visit & Tour</h3>
+                <p>Hall, Beamline, Station</p>
+            </div>
+            
+            <!-- IV. Achievements -->
+            <div class="module-btn" data-module="stories">
+                <h3>Achievements</h3>
+                <p>Public Stories & Impact</p>
+            </div>
+            
+            <!-- V. AI Interaction Center -->
+            <div class="module-btn" data-module="ai-center">
+                <h3>AI Interaction Center</h3>
+                <p>Chatbot, Dictionary, Learning</p>
+            </div>
         </div>
         
-        <!-- Module 2: Science Cognition (Top-Right - 72°) -->
-        <div class="module-card module-2" data-module="science">
-            <div class="module-icon">💡</div>
-            <h3>Science Cognition</h3>
-            <p>Light, Equipment & Research</p>
-            <span class="module-tag">AI Interactive</span>
-        </div>
-        
-        <!-- Module 3: Visit & Tour (Bottom-Right - 144°) -->
-        <div class="module-card module-3" data-module="visit">
-            <div class="module-icon">📸</div>
-            <h3>Visit & Tour</h3>
-            <p>Hall, Beamline, Station</p>
-            <span class="module-tag">Photo Guide</span>
-        </div>
-        
-        <!-- Module 4: Achievements (Bottom-Left - 216°) -->
-        <div class="module-card module-4" data-module="stories">
-            <div class="module-icon">📖</div>
-            <h3>Achievements</h3>
-            <p>Public Stories & Impact</p>
-            <span class="module-tag">AI Stories</span>
-        </div>
-        
-        <!-- Module 5: AI Center (Top-Left - 288°) -->
-        <div class="module-card module-5" data-module="ai-center">
-            <div class="module-icon">🤖</div>
-            <h3>AI Interaction Center</h3>
-            <p>Chatbot, Dictionary, Learning</p>
-            <span class="module-tag">Full AI Power</span>
-        </div>
+        <button class="back-btn" id="backToHome">← Return to Main Page</button>
     </div>
     
-    <!-- Module Detail Overlay -->
+    <!-- Module Detail Modal -->
     <div class="modal-overlay" id="moduleModal">
         <div class="modal-container">
             <div class="modal-header">
                 <h2 id="modalTitle"></h2>
                 <button class="close-btn" id="closeModal">✕</button>
             </div>
-            <div class="modal-content" id="modalContent">
-                <!-- Dynamic content loads here -->
-            </div>
+            <div class="modal-content" id="modalContent"></div>
             <div class="chat-interface">
                 <div class="chat-messages" id="chatMessages">
                     <div class="message ai">
@@ -332,7 +244,7 @@
                     </div>
                 </div>
                 <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Ask Dr. Qian about synchrotron science..." autocomplete="off">
+                    <input type="text" id="userInput" placeholder="Ask Dr. Qian about synchrotron science...">
                     <button id="sendBtn">Ask AI</button>
                 </div>
             </div>
@@ -345,41 +257,35 @@
     </div>
     
     <script>
-        // Module Data - Strictly following your requirements
+        // Module Data strictly following your requirements
         const moduleData = {
             overview: {
                 title: "I. Core Homepage Section",
                 content: `
                     <h4>1. Lab Overview</h4>
-                    <p>A synchrotron light source is like a <span class="highlight">super magnifying glass</span>, a <span class="highlight">super microscope</span>, and the <span class="highlight">world's fastest camera</span>. It allows us to see things that are too small or happen too fast for normal instruments. It's a tool for everyone, helping us understand the building blocks of our world.</p>
-                    
+                    <p>A synchrotron light source is like a <span class="highlight">super magnifying glass</span>, a <span class="highlight">super microscope</span>, and the <span class="highlight">world's fastest camera</span>. It allows us to see things that are too small or happen too fast for normal instruments.</p>
                     <h4>2. Our Mission & Public Value</h4>
-                    <p>We focus on real-world problems that matter to you:</p>
+                    <p>We focus on real-world problems: developing new medicines, creating better batteries, detecting pollution, protecting cultural relics, and testing aerospace materials.</p>
                     <ul>
                         <li><strong>Medical Innovation:</strong> Developing new medicines and vaccines.</li>
                         <li><strong>New Materials:</strong> Creating better batteries for electric cars.</li>
-                        <li><strong>Environmental Protection:</strong> Detecting tiny pollutants in water.</li>
                         <li><strong>Cultural Relics:</strong> Protecting and restoring national treasures.</li>
-                        <li><strong>Aerospace Support:</strong> Testing materials for spacecraft.</li>
+                        <li><strong>Environmental Protection:</strong> Detecting tiny pollutants in water.</li>
                     </ul>
-                    <p>AI can explain how each of these helps your daily life!</p>
                 `
             },
             science: {
                 title: "II. Science Cognition Section",
                 content: `
                     <h4>1. What is Synchrotron Light?</h4>
-                    <p>Compare natural light (like a candle), laser (like a pointer), and synchrotron light (like a giant searchlight). Synchrotron light is millions of times brighter and can be focused much more precisely. It's like having a camera flash so fast it can freeze the movement of electrons!</p>
-                    
+                    <p>Compare natural light (candle), laser (pointer), and synchrotron light (searchlight). Synchrotron light is millions of times brighter and can be focused much more precisely. It's like having a camera flash so fast it can freeze the movement of electrons!</p>
                     <h4>2. Lab Equipment Popular Science</h4>
                     <p><strong>Storage Ring ("Super Runway"):</strong></p>
                     <img src="images/2.1.jpg" alt="Storage Ring">
                     <p>This is where electrons run in circles at nearly the speed of light, producing the powerful light we use.</p>
-                    
                     <p><strong>Beamline ("Exclusive Sight"):</strong></p>
                     <img src="images/2.2.jpg" alt="Beamline">
                     <p>This is the "highway" for light. It guides the light from the ring to the experiment station, filtering and shaping it perfectly.</p>
-                    
                     <h4>3. Research Fields for Public</h4>
                     <ul>
                         <li><strong>Biomedical Research:</strong> Studying cancer cells and developing new drugs.</li>
@@ -393,18 +299,18 @@
             visit: {
                 title: "III. Visit & Tour Section",
                 content: `
-                    <h4>Visit: Experiment Hall (tf3.jpg)</h4>
+                    <h4>Experiment Hall</h4>
                     <img src="images/tf3.jpg" alt="Experiment Hall">
                     <p>This photo presents the panoramic view of the Synchrotron experiment hall. It is the collection point of the storage ring, beamlines, and experimental stations, serving as the core area of our "National Strategic Equipment."</p>
-                    <p><strong>Hall Structure:</strong> The dome-shaped building is iconic. Inside lies the ring layout. The yellow overhead crane is crucial for installing and maintaining heavy components like the ring and beamlines.</p>
-                    <p><strong>Multidisciplinary Platform:</strong> You can see multiple beamline entrances and control cabinets. Different beamlines correspond to different research directions, forming a comprehensive research platform.</p>
+                    <p><strong>Hall Structure:</strong> The dome-shaped building is iconic. Inside lies the ring layout. The yellow overhead crane is crucial for installing and maintaining heavy components.</p>
+                    <p><strong>Multidisciplinary Platform:</strong> You can see multiple beamline entrances and control cabinets. Different beamlines correspond to different research directions.</p>
                     
-                    <h4>Visit: Beamline Transmission (tf.jpg)</h4>
+                    <h4>Beamline Transmission Area</h4>
                     <img src="images/tf.jpg" alt="Beamline Area">
                     <p>This shows the beamline transmission channel, connecting the storage ring to the experimental stations—the "Highway of Light."</p>
-                    <p><strong>Key Role:</strong> Silver pipes are vacuum beamlines. Light travels through mirrors and monochromators to become "customized light" for experiments. Red robotic arms assist in maintenance.</p>
+                    <p><strong>Key Role:</strong> Silver pipes are vacuum beamlines. Light travels through mirrors and monochromators to become "customized light." Red robotic arms assist in maintenance.</p>
                     
-                    <h4>Visit: Experiment Station (tf2.jpg)</h4>
+                    <h4>Experiment Station Core Area</h4>
                     <img src="images/tf2.jpg" alt="Experiment Station">
                     <p>This focuses on the core terminal equipment, the scientist's "Super Laboratory."</p>
                     <p><strong>Core Device:</strong> The chamber wrapped in aluminum foil maintains ultra-high vacuum and stable low temperatures.</p>
@@ -415,8 +321,8 @@
                 title: "IV. Achievements & Stories",
                 content: `
                     <h4>Public Achievement Stories</h4>
-                    <p><strong>Story 1: Restoring National Treasures</strong><br>Using synchrotron light, we scanned ancient paintings layer by layer without touching them, revealing hidden drafts beneath the surface that were invisible to the naked eye.</p>
-                    <p><strong>Story 2: Vaccine Breakthrough</strong><br>Scientists observed virus protein structures in real-time, accelerating the development of a new vaccine by understanding its weaknesses.</p>
+                    <p><strong>Story 1: Restoring National Treasures</strong><br>Using synchrotron light, we scanned ancient paintings layer by layer without touching them, revealing hidden drafts beneath the surface.</p>
+                    <p><strong>Story 2: Vaccine Breakthrough</strong><br>Scientists observed virus protein structures in real-time, accelerating the development of a new vaccine.</p>
                     <p><strong>Story 3: Better Batteries</strong><br>By watching lithium ions move inside a battery at the atomic level, we found ways to make phone batteries last 30% longer.</p>
                     <p><strong>Story 4: Environmental Protection</strong><br>We detected micro-plastics in local water sources, helping the city government decide where to build new filtration plants.</p>
                 `
@@ -426,35 +332,38 @@
                 content: `
                     <h4>1. AI Q&A Chatbot</h4>
                     <p>Ask me anything about the lab in simple English. No formulas, just clear explanations. Try asking: "What is the difference between synchrotron light and normal light?"</p>
-                    
                     <h4>2. AI Popular Science Dictionary</h4>
-                    <p>Confused by a term? Ask me to explain "Synchrotron", "Beamline", or "Storage Ring" in plain English. I will give you the simplest definition possible.</p>
-                    
+                    <p>Confused by a term? Ask me to explain "Synchrotron", "Beamline", or "Storage Ring" in plain English.</p>
                     <h4>3. AI Custom Learning</h4>
-                    <p>Tell me if you are a student or an adult, and I will recommend the best stories and facts for you. For students, I'll focus on cool visual phenomena; for adults, I'll explain the technological impact.</p>
-                    <p style="font-style: italic; color: rgba(255,255,255,0.7);">Example: Type "I am a student" or "I am an adult" to start personalized learning.</p>
+                    <p>Tell me if you are a student or an adult, and I will recommend the best stories for you. For students, I'll focus on cool visuals; for adults, I'll explain the technological impact.</p>
                 `
             }
         };
 
         // DOM Elements
-        const moduleBtns = document.querySelectorAll('.module-card');
+        const moduleBtns = document.querySelectorAll('.module-btn');
         const modal = document.getElementById('moduleModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalContent = document.getElementById('modalContent');
         const closeModalBtn = document.getElementById('closeModal');
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
         const nextLabBtn = document.getElementById('nextLabBtn');
         const aiMessage = document.getElementById('aiMessage');
+
+        let currentModule = '';
 
         // Open Modal
         moduleBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                const moduleKey = btn.dataset.module;
-                const data = moduleData[moduleKey];
+                currentModule = btn.dataset.module;
+                const data = moduleData[currentModule];
                 if (data) {
                     modalTitle.textContent = data.title;
                     modalContent.innerHTML = data.content;
                     modal.style.display = 'flex';
+                    chatMessages.innerHTML = `<div class="message ai"><p>Welcome! I'm Dr. Qian Xuesen. Ask me anything about ${data.title}!</p><div class="message-time">Just now</div></div>`;
                 }
             });
         });
@@ -464,14 +373,72 @@
             modal.style.display = 'none';
         });
 
+        // Send Message to AI
+        function sendMessage() {
+            const msg = userInput.value.trim();
+            if (!msg) return;
+
+            appendMessage('user', msg);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+
+            appendMessage('ai', 'Dr. Qian is thinking...');
+
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'question',
+                    module: currentModule,
+                    message: msg
+                })
+            })
+            .then(async res => {
+                const data = await res.json();
+                removeLastAiMessage();
+                if (data.success) {
+                    appendMessage('ai', data.content);
+                } else {
+                    // Fallback if API fails
+                    appendMessage('ai', "Even the brightest light meets a shadow sometimes. Let's try asking that differently!");
+                }
+            })
+            .catch(err => {
+                removeLastAiMessage();
+                appendMessage('ai', "The connection to the lab seems unstable. Please try again later.");
+            })
+            .finally(() => {
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+            });
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+        function appendMessage(sender, text) {
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p><div class="message-time">Just now</div>`;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeLastAiMessage() {
+            const messages = chatMessages.querySelectorAll('.message.ai');
+            if (messages.length) {
+                messages[messages.length - 1].remove();
+            }
+        }
+
         // Next Lab Logic
         nextLabBtn.addEventListener('click', () => {
             aiMessage.textContent = "孩子，走到这里，你已经领略了东区的浪漫，西区的理性，接下来，去中区看看吧，那里会指向你这趟旅行的最终答案，我们有缘再见——钱学森。";
-            
             const bubble = document.getElementById('aiBubble');
             bubble.style.opacity = '1';
             bubble.style.transform = 'translateY(0) scale(1)';
-
             setTimeout(() => {
                 window.location.href = 'https://interactive-digital-0k6b.bolt.host/';
             }, 3000);
