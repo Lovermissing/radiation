@@ -25,7 +25,7 @@ body {
     user-select: none;
 }
 
-/* ==================== BACKGROUND ==================== */
+/* ==================== BACKGROUND & EFFECTS ==================== */
 .background {
     position: fixed;
     top: 0;
@@ -42,26 +42,24 @@ body {
     transition: filter 0.8s ease;
 }
 
-/* Subtle Light Sweep Effect */
-.background::after {
+/* Particle flow effect */
+body::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: -100%;
-    width: 50%;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to right,
-        transparent,
-        rgba(255, 255, 255, 0.05),
-        transparent
-    );
-    animation: lightSweep 15s infinite linear;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(0, 180, 255, 0.15) 0%, transparent 20%),
+        radial-gradient(circle at 80% 70%, rgba(0, 150, 255, 0.1) 0%, transparent 20%);
+    z-index: -1;
+    animation: particleFloat 20s infinite alternate;
 }
 
-@keyframes lightSweep {
-    0% { left: -100%; }
-    100% { left: 100%; }
+@keyframes particleFloat {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-2%, 2%); }
 }
 
 /* ==================== CHARACTER ==================== */
@@ -136,13 +134,6 @@ body {
     border-radius: 22px 22px 0 0;
 }
 
-.chat-bubble:hover {
-    transform: translateY(-5px) scale(1.01);
-    box-shadow: 
-        0 20px 50px rgba(0, 120, 220, 0.45),
-        0 0 0 1px rgba(0, 180, 255, 0.4);
-}
-
 .bubble-content {
     font-size: 1.05rem;
     line-height: 1.5;
@@ -173,48 +164,17 @@ body {
     z-index: 1;
 }
 
-/* ==================== CENTRAL FRAME (SQUARE BOX) ==================== */
-.central-frame {
+/* ==================== CIRCULAR LAYOUT ==================== */
+.circle-container {
     position: absolute;
     top: 50%;
     left: 55%;
     transform: translate(-50%, -50%);
-    width: 800px;
-    height: 650px;
-    border: 2px dashed rgba(100, 200, 255, 0.35);
-    border-radius: 16px;
-    z-index: 12;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
+    width: 950px;
+    height: 950px;
+    z-index: 13;
     animation: modulesAppear 1s ease 1.5s forwards;
     opacity: 0;
-    background: rgba(10, 30, 60, 0.2);
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 60px rgba(0, 100, 200, 0.1) inset;
-}
-
-/* Subtle glowing dots on the frame corners */
-.central-frame::before,
-.central-frame::after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(0, 180, 255, 0.7);
-    box-shadow: 0 0 15px rgba(0, 180, 255, 0.7);
-}
-
-.central-frame::before {
-    top: -5px;
-    left: -5px;
-}
-.central-frame::after {
-    top: -5px;
-    right: -5px;
 }
 
 @keyframes modulesAppear {
@@ -228,13 +188,24 @@ body {
     }
 }
 
-.lab-title {
+/* Central Title */
+.circle-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    margin-bottom: 40px;
-    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    animation: fadeInText 2s ease 2s forwards;
+    opacity: 0;
 }
 
-.lab-title h1 {
+@keyframes fadeInText {
+    to { opacity: 1; }
+}
+
+.circle-title h1 {
     font-size: 2.8rem;
     font-weight: 900;
     text-shadow: 
@@ -246,11 +217,11 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
-.lab-title .subtitle {
-    font-size: 1.1rem;
+.circle-title .subtitle {
+    font-size: 1.2rem;
     color: rgba(180, 230, 255, 0.9);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     letter-spacing: 4px;
@@ -258,33 +229,50 @@ body {
     font-style: italic;
 }
 
-/* ==================== MODULE BUTTONS (5 around square) ==================== */
-.modules-grid {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.module-btn {
+/* Module Cards */
+.module-card {
     position: absolute;
+    width: 190px;
+    height: 220px;
     background: linear-gradient(145deg, 
-        rgba(30, 80, 120, 0.85), 
-        rgba(20, 60, 100, 0.8)
+        rgba(30, 80, 120, 0.92), 
+        rgba(20, 60, 100, 0.88)
     );
-    border: 2px solid rgba(100, 200, 255, 0.3);
-    border-radius: 14px;
-    padding: 20px 15px;
-    text-align: center;
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(100, 200, 255, 0.5);
+    border-radius: 20px;
+    padding: 20px 15px 18px;
     cursor: pointer;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 25px rgba(0, 50, 100, 0.3);
-    transform-origin: center center;
-    min-width: 180px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 8px 25px rgba(0, 100, 200, 0.35);
     overflow: hidden;
+    z-index: 3;
+    pointer-events: auto;
 }
 
-/* Shimmer effect on hover */
-.module-btn::before {
+.module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(0, 180, 255, 0.9) 50%, 
+        transparent 100%
+    );
+    transition: all 0.4s ease;
+}
+
+/* Glossy shine effect on hover */
+.module-card::after {
     content: '';
     position: absolute;
     top: 0;
@@ -294,147 +282,80 @@ body {
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.08),
         transparent
     );
     transition: left 0.7s ease;
 }
 
-.module-btn:hover::before {
+.module-card:hover::after {
     left: 100%;
 }
 
-.module-btn:hover {
+.module-card:hover {
     background: linear-gradient(145deg, 
         rgba(40, 100, 160, 0.95), 
         rgba(30, 80, 130, 0.92)
     );
-    border-color: rgba(100, 220, 255, 0.8);
+    border-color: rgba(100, 220, 255, 0.9);
     box-shadow: 
-        0 15px 40px rgba(0, 120, 220, 0.5),
-        0 0 25px rgba(0, 180, 255, 0.3);
-    transform: scale(1.06);
+        0 18px 45px rgba(0, 120, 220, 0.55),
+        0 0 35px rgba(0, 180, 255, 0.3);
+    z-index: 10;
 }
 
-.module-btn h3 {
+.module-card .module-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+    filter: drop-shadow(0 3px 7px rgba(0, 150, 255, 0.5));
+    transition: transform 0.3s ease;
+}
+
+.module-card:hover .module-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.module-card h3 {
     font-size: 1rem;
     font-weight: 700;
     color: #fff;
-    text-shadow: 0 2px 8px rgba(0, 150, 255, 0.5);
-    line-height: 1.3;
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0, 150, 255, 0.6);
+    line-height: 1.2;
+    margin: 0;
+    letter-spacing: 0.3px;
 }
 
-.module-btn p {
-    font-size: 0.7rem;
+.module-card p {
+    font-size: 0.75rem;
     color: rgba(180, 230, 255, 0.85);
-    line-height: 1.3;
-    position: relative;
-    z-index: 2;
+    margin: 0;
+    line-height: 1.2;
 }
 
-/* Positioning 5 buttons around the square */
-.module-btn:nth-child(1) { /* Top Left */
-    top: 0;
-    left: 0;
-}
-.module-btn:nth-child(2) { /* Top Right */
-    top: 0;
-    right: 0;
-}
-.module-btn:nth-child(3) { /* Middle Left */
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-}
-.module-btn:nth-child(4) { /* Middle Right */
-    top: 50%;
-    transform: translateY(-50%);
-    right: 0;
-}
-.module-btn:nth-child(5) { /* Bottom Center */
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-/* ==================== BACK BUTTON ==================== */
-.back-btn {
-    margin-top: 20px;
-    padding: 12px 30px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(100, 200, 255, 0.3);
-    border-radius: 25px;
-    color: #fff;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-
-.back-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(100, 200, 255, 0.6);
-    transform: translateY(-2px);
-}
-
-/* ==================== NEXT LAB BUTTON ==================== */
-.next-lab-btn {
-    position: fixed;
-    right: 30px;
-    bottom: 30px;
-    background: linear-gradient(135deg, #0077B6, #005f8a);
+.module-tag {
+    font-size: 0.65rem;
+    background: rgba(0, 119, 182, 0.65);
+    padding: 4px 12px;
+    border-radius: 12px;
     color: #ffffff;
-    padding: 14px 24px;
-    border-radius: 30px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 50;
-    box-shadow: 
-        0 10px 30px rgba(0, 60, 120, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    overflow: hidden;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin-top: 4px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(100, 200, 255, 0.5);
 }
 
-.next-lab-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: left 0.6s ease;
+/* Circle positions - 4 modules */
+.module-1 { top: calc(50% - 385px); left: 50%; transform: translate(-50%, -50%); }
+.module-2 { top: 50%; left: calc(50% + 370px); transform: translate(-50%, -50%); }
+.module-3 { top: calc(50% + 365px); left: 50%; transform: translate(-50%, -50%); }
+.module-4 { top: 50%; left: calc(50% - 370px); transform: translate(-50%, -50%); }
+
+.module-1:hover, .module-2:hover, .module-3:hover, .module-4:hover {
+    transform: translate(-50%, -50%) scale(1.08);
 }
 
-.next-lab-btn:hover::before {
-    left: 100%;
-}
-
-.next-lab-btn:hover {
-    transform: translateX(8px) scale(1.05);
-    box-shadow: 
-        0 15px 40px rgba(0, 60, 120, 0.7),
-        0 0 0 2px rgba(255, 255, 255, 0.2);
-    background: linear-gradient(135deg, #005f8a, #004466);
-}
-
-/* ==================== MODAL OVERLAYS ==================== */
+/* ==================== MODAL STYLES ==================== */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -543,7 +464,7 @@ body {
 
 .modal-content img {
     width: 100%;
-    max-width: 650px;
+    max-width: 600px;
     height: auto;
     border-radius: 14px;
     margin: 20px auto;
@@ -552,24 +473,10 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-.modal-content ul, 
-.modal-content ol {
-    padding-left: 25px;
-    margin: 15px 0;
-}
-
-.modal-content li {
-    margin-bottom: 10px;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.modal-content h4 {
-    color: #48CAE4;
-    font-size: 1.2rem;
-    margin-top: 25px;
-    margin-bottom: 12px;
-    text-shadow: 0 2px 10px rgba(72, 202, 228, 0.3);
-}
+.modal-content ul { padding-left: 25px; margin: 15px 0; }
+.modal-content li { margin-bottom: 10px; color: rgba(255, 255, 255, 0.9); line-height: 1.6; }
+.modal-content h4 { color: #48CAE4; font-size: 1.2rem; margin: 25px 0 12px; text-shadow: 0 2px 10px rgba(72, 202, 228, 0.3); }
+.modal-content .highlight { color: #90E0EF; font-weight: 600; }
 
 /* ==================== CHAT INTERFACE ==================== */
 .chat-interface {
@@ -625,6 +532,17 @@ body {
     margin-left: 4px;
 }
 
+.chat-messages .message.user {
+    background: linear-gradient(135deg, 
+        rgba(0, 180, 255, 0.3), 
+        rgba(0, 150, 255, 0.2)
+    );
+    border-right: 4px solid #48CAE4;
+    margin-left: auto;
+    border-radius: 12px 0 12px 12px;
+    margin-right: 4px;
+}
+
 .chat-messages .message p {
     margin: 0;
     line-height: 1.5;
@@ -672,6 +590,40 @@ body {
     transform: translateY(-2px);
 }
 
+/* ==================== NEXT LAB BUTTON ==================== */
+.next-lab-btn {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    background: linear-gradient(135deg, #0077B6, #005f8a);
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 50;
+    box-shadow: 
+        0 10px 30px rgba(0, 60, 120, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    letter-spacing: 0.5px;
+}
+
+.next-lab-btn:hover {
+    transform: translateX(8px) scale(1.05);
+    box-shadow: 
+        0 15px 40px rgba(0, 60, 120, 0.7),
+        0 0 0 2px rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #005f8a, #004466);
+}
+
 /* ==================== ANIMATIONS ==================== */
 @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -703,54 +655,31 @@ body {
 }
 
 /* ==================== RESPONSIVE ==================== */
-@media (max-width: 1200px) {
-    .central-frame {
-        width: 700px;
-        height: 600px;
-        padding: 30px;
-    }
-
-    .lab-title h1 {
-        font-size: 2.2rem;
-    }
+@media (max-width: 1100px) {
+    .circle-container { width: 720px; height: 720px; }
+    .circle-title h1 { font-size: 2.2rem; }
+    .module-card { width: 160px; height: 190px; padding: 18px 12px; }
+    .module-card .module-icon { font-size: 2.2rem; }
+    .module-card h3 { font-size: 0.9rem; }
+    .module-card p { font-size: 0.7rem; }
+    .module-1 { top: calc(50% - 285px); }
+    .module-2 { left: calc(50% + 258px); }
+    .module-3 { top: calc(50% + 275px); }
+    .module-4 { left: calc(50% - 258px); }
 }
 
 @media (max-width: 768px) {
-    .character-container {
-        display: none;
-    }
-
-    .central-frame {
-        left: 50%;
-        width: 95%;
-        height: auto;
-        min-height: 550px;
-        padding: 20px;
-    }
-
-    .modules-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        position: static;
-        height: auto;
-    }
-
-    .module-btn {
-        position: static;
-        transform: none !important;
-        min-width: unset;
-    }
-
-    .modal-container {
-        height: 90vh;
-    }
-
-    .chat-input {
-        flex-direction: column;
-    }
-
-    .chat-input button {
-        width: 100%;
-    }
+    .character-container { display: none; }
+    .circle-container { width: 520px; height: 520px; left: 50%; }
+    .circle-title h1 { font-size: 1.6rem; }
+    .circle-title .subtitle { font-size: 0.9rem; }
+    .module-card { width: 130px; height: 155px; padding: 14px 10px; border-radius: 16px; }
+    .module-card .module-icon { font-size: 1.8rem; }
+    .module-card h3 { font-size: 0.75rem; }
+    .module-card p { display: none; }
+    .module-tag { font-size: 0.55rem; padding: 3px 8px; }
+    .module-1 { top: calc(50% - 206px); }
+    .module-2 { left: calc(50% + 186px); }
+    .module-3 { top: calc(50% + 198px); }
+    .module-4 { left: calc(50% - 186px); }
 }
