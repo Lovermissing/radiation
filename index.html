@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
     <style>
-        /* ==================== CIRCULAR LAYOUT (REFERENCED FROM FIRE LAB) ==================== */
+        /* ==================== CIRCULAR LAYOUT ==================== */
         .circle-container {
             position: absolute;
             top: 50%;
@@ -169,15 +169,30 @@
             border: 1px solid rgba(100, 200, 255, 0.5);
         }
 
-        /* Circle positions - 5 modules evenly spaced */
+        /* Circle positions - 4 modules (removed 5th) */
         /* Radius: 370px */
-        .module-1 { top: calc(50% - 385px); left: 50%; transform: translate(-50%, -50%); }
-        .module-2 { top: calc(50% - 190px); left: calc(50% + 338px); transform: translate(-50%, -50%); }
-        .module-3 { top: calc(50% + 230px); left: calc(50% + 290px); transform: translate(-50%, -50%); }
-        .module-4 { top: calc(50% + 365px); left: calc(50% - 50px); transform: translate(-50%, -50%); }
-        .module-5 { top: calc(50% - 60px); left: calc(50% - 375px); transform: translate(-50%, -50%); }
+        .module-1 { /* Top */
+            top: calc(50% - 385px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .module-2 { /* Right */
+            top: 50%;
+            left: calc(50% + 370px);
+            transform: translate(-50%, -50%);
+        }
+        .module-3 { /* Bottom */
+            top: calc(50% + 365px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .module-4 { /* Left */
+            top: 50%;
+            left: calc(50% - 370px);
+            transform: translate(-50%, -50%);
+        }
 
-        .module-1:hover, .module-2:hover, .module-3:hover, .module-4:hover, .module-5:hover {
+        .module-1:hover, .module-2:hover, .module-3:hover, .module-4:hover {
             transform: translate(-50%, -50%) scale(1.08);
         }
 
@@ -225,10 +240,9 @@
             .module-card h3 { font-size: 0.9rem; }
             .module-card p { font-size: 0.7rem; }
             .module-1 { top: calc(50% - 285px); }
-            .module-2 { top: calc(50% - 148px); left: calc(50% + 258px); }
-            .module-3 { top: calc(50% + 178px); left: calc(50% + 222px); }
-            .module-4 { top: calc(50% + 275px); left: calc(50% - 42px); }
-            .module-5 { top: calc(50% - 52px); left: calc(50% - 282px); }
+            .module-2 { left: calc(50% + 258px); }
+            .module-3 { top: calc(50% + 275px); }
+            .module-4 { left: calc(50% - 258px); }
         }
 
         @media (max-width: 768px) {
@@ -241,10 +255,9 @@
             .module-card p { display: none; }
             .module-tag { font-size: 0.55rem; padding: 3px 8px; }
             .module-1 { top: calc(50% - 206px); }
-            .module-2 { top: calc(50% - 108px); left: calc(50% + 186px); }
-            .module-3 { top: calc(50% + 128px); left: calc(50% + 160px); }
-            .module-4 { top: calc(50% + 198px); left: calc(50% - 32px); }
-            .module-5 { top: calc(50% - 40px); left: calc(50% - 204px); }
+            .module-2 { left: calc(50% + 186px); }
+            .module-3 { top: calc(50% + 198px); }
+            .module-4 { left: calc(50% - 186px); }
         }
     </style>
 </head>
@@ -260,12 +273,12 @@
     <!-- AI Chat Bubble -->
     <div class="chat-bubble" id="aiBubble">
         <div class="bubble-content">
-            <p id="aiMessage">Welcome to the Synchrotron Radiation Laboratory! I'm Dr. Qian Xuesen. Think of this place as a super microscope that can see atoms!</p>
+            <p id="aiMessage">Welcome to the Synchrotron Radiation Laboratory! I'm Dr. Qian Xuesen. Think of this place as a super microscope!</p>
         </div>
         <div class="bubble-arrow"></div>
     </div>
     
-    <!-- Circular Layout: Title in Center, 5 Modules Around -->
+    <!-- Circular Layout: Title in Center, 4 Modules Around -->
     <div class="circle-container" id="circleContainer">
         <!-- Central Title -->
         <div class="circle-title">
@@ -273,7 +286,7 @@
             <p class="subtitle">See the Invisible · Discover the Future</p>
         </div>
         
-        <!-- Module 1: Core Home (Top - 0°) -->
+        <!-- Module 1: Core Home (Top) -->
         <div class="module-card module-1" data-module="overview">
             <div class="module-icon">🏠</div>
             <h3>Core Homepage</h3>
@@ -281,7 +294,7 @@
             <span class="module-tag">AI Explains</span>
         </div>
         
-        <!-- Module 2: Science Cognition (Top-Right - 72°) -->
+        <!-- Module 2: Science Cognition (Right) -->
         <div class="module-card module-2" data-module="science">
             <div class="module-icon">💡</div>
             <h3>Science Cognition</h3>
@@ -289,7 +302,7 @@
             <span class="module-tag">AI Interactive</span>
         </div>
         
-        <!-- Module 3: Visit & Tour (Bottom-Right - 144°) -->
+        <!-- Module 3: Visit & Tour (Bottom) -->
         <div class="module-card module-3" data-module="visit">
             <div class="module-icon">📸</div>
             <h3>Visit & Tour</h3>
@@ -297,20 +310,12 @@
             <span class="module-tag">Photo Guide</span>
         </div>
         
-        <!-- Module 4: Achievements (Bottom-Left - 216°) -->
+        <!-- Module 4: Achievements (Left) -->
         <div class="module-card module-4" data-module="stories">
             <div class="module-icon">📖</div>
             <h3>Achievements</h3>
             <p>Public Stories & Impact</p>
             <span class="module-tag">AI Stories</span>
-        </div>
-        
-        <!-- Module 5: AI Center (Top-Left - 288°) -->
-        <div class="module-card module-5" data-module="ai-center">
-            <div class="module-icon">🤖</div>
-            <h3>AI Interaction Center</h3>
-            <p>Chatbot, Dictionary, Learning</p>
-            <span class="module-tag">Full AI Power</span>
         </div>
     </div>
     
@@ -351,18 +356,15 @@
                 title: "I. Core Homepage Section",
                 content: `
                     <h4>1. Lab Overview</h4>
-                    <p>A synchrotron light source is like a <span class="highlight">super magnifying glass</span>, a <span class="highlight">super microscope</span>, and the <span class="highlight">world's fastest camera</span>. It allows us to see things that are too small or happen too fast for normal instruments. It's a tool for everyone, helping us understand the building blocks of our world.</p>
-                    
+                    <p>A synchrotron light source is like a <span class="highlight">super magnifying glass</span>, a <span class="highlight">super microscope</span>, and the <span class="highlight">world's fastest camera</span>. It allows us to see things that are too small or happen too fast for normal instruments.</p>
                     <h4>2. Our Mission & Public Value</h4>
                     <p>We focus on real-world problems that matter to you:</p>
                     <ul>
                         <li><strong>Medical Innovation:</strong> Developing new medicines and vaccines.</li>
                         <li><strong>New Materials:</strong> Creating better batteries for electric cars.</li>
-                        <li><strong>Environmental Protection:</strong> Detecting tiny pollutants in water.</li>
                         <li><strong>Cultural Relics:</strong> Protecting and restoring national treasures.</li>
-                        <li><strong>Aerospace Support:</strong> Testing materials for spacecraft.</li>
+                        <li><strong>Environmental Protection:</strong> Detecting tiny pollutants in water.</li>
                     </ul>
-                    <p>AI can explain how each of these helps your daily life!</p>
                 `
             },
             science: {
@@ -370,16 +372,13 @@
                 content: `
                     <h4>1. What is Synchrotron Light?</h4>
                     <p>Compare natural light (like a candle), laser (like a pointer), and synchrotron light (like a giant searchlight). Synchrotron light is millions of times brighter and can be focused much more precisely. It's like having a camera flash so fast it can freeze the movement of electrons!</p>
-                    
                     <h4>2. Lab Equipment Popular Science</h4>
                     <p><strong>Storage Ring ("Super Runway"):</strong></p>
                     <img src="images/2.1.jpg" alt="Storage Ring">
                     <p>This is where electrons run in circles at nearly the speed of light, producing the powerful light we use.</p>
-                    
                     <p><strong>Beamline ("Exclusive Sight"):</strong></p>
                     <img src="images/2.2.jpg" alt="Beamline">
                     <p>This is the "highway" for light. It guides the light from the ring to the experiment station, filtering and shaping it perfectly.</p>
-                    
                     <h4>3. Research Fields for Public</h4>
                     <ul>
                         <li><strong>Biomedical Research:</strong> Studying cancer cells and developing new drugs.</li>
@@ -393,46 +392,30 @@
             visit: {
                 title: "III. Visit & Tour Section",
                 content: `
-                    <h4>Visit: Experiment Hall (tf3.jpg)</h4>
+                    <h4>Experiment Hall</h4>
                     <img src="images/tf3.jpg" alt="Experiment Hall">
                     <p>This photo presents the panoramic view of the Synchrotron experiment hall. It is the collection point of the storage ring, beamlines, and experimental stations, serving as the core area of our "National Strategic Equipment."</p>
-                    <p><strong>Hall Structure:</strong> The dome-shaped building is iconic. Inside lies the ring layout. The yellow overhead crane is crucial for installing and maintaining heavy components like the ring and beamlines.</p>
-                    <p><strong>Multidisciplinary Platform:</strong> You can see multiple beamline entrances and control cabinets. Different beamlines correspond to different research directions, forming a comprehensive research platform.</p>
-                    
-                    <h4>Visit: Beamline Transmission (tf.jpg)</h4>
+                    <p><strong>Hall Structure:</strong> The dome-shaped building is iconic. Inside lies the ring layout. The yellow overhead crane is crucial for installing and maintaining heavy components.</p>
+                    <p><strong>Multidisciplinary Platform:</strong> You can see multiple beamline entrances and control cabinets. Different beamlines correspond to different research directions.</p>
+                    <h4>Beamline Transmission Area</h4>
                     <img src="images/tf.jpg" alt="Beamline Area">
                     <p>This shows the beamline transmission channel, connecting the storage ring to the experimental stations—the "Highway of Light."</p>
-                    <p><strong>Key Role:</strong> Silver pipes are vacuum beamlines. Light travels through mirrors and monochromators to become "customized light" for experiments. Red robotic arms assist in maintenance.</p>
-                    
-                    <h4>Visit: Experiment Station (tf2.jpg)</h4>
+                    <p><strong>Key Role:</strong> Silver pipes are vacuum beamlines. Light travels through mirrors and monochromators to become "customized light" for experiments.</p>
+                    <h4>Experiment Station Core Area</h4>
                     <img src="images/tf2.jpg" alt="Experiment Station">
                     <p>This focuses on the core terminal equipment, the scientist's "Super Laboratory."</p>
                     <p><strong>Core Device:</strong> The chamber wrapped in aluminum foil maintains ultra-high vacuum and stable low temperatures.</p>
-                    <p><strong>Support Systems:</strong> Cabinets collect data while blue/silver pipes manage cooling and signals. This is where photons meet samples to reveal atomic structures.</p>
+                    <p><strong>Support Systems:</strong> Cabinets collect data while blue/silver pipes manage cooling and signals.</p>
                 `
             },
             stories: {
                 title: "IV. Achievements & Stories",
                 content: `
                     <h4>Public Achievement Stories</h4>
-                    <p><strong>Story 1: Restoring National Treasures</strong><br>Using synchrotron light, we scanned ancient paintings layer by layer without touching them, revealing hidden drafts beneath the surface that were invisible to the naked eye.</p>
-                    <p><strong>Story 2: Vaccine Breakthrough</strong><br>Scientists observed virus protein structures in real-time, accelerating the development of a new vaccine by understanding its weaknesses.</p>
+                    <p><strong>Story 1: Restoring National Treasures</strong><br>Using synchrotron light, we scanned ancient paintings layer by layer without touching them, revealing hidden drafts beneath the surface.</p>
+                    <p><strong>Story 2: Vaccine Breakthrough</strong><br>Scientists observed virus protein structures in real-time, accelerating the development of a new vaccine.</p>
                     <p><strong>Story 3: Better Batteries</strong><br>By watching lithium ions move inside a battery at the atomic level, we found ways to make phone batteries last 30% longer.</p>
                     <p><strong>Story 4: Environmental Protection</strong><br>We detected micro-plastics in local water sources, helping the city government decide where to build new filtration plants.</p>
-                `
-            },
-            'ai-center': {
-                title: "V. AI Interaction Center",
-                content: `
-                    <h4>1. AI Q&A Chatbot</h4>
-                    <p>Ask me anything about the lab in simple English. No formulas, just clear explanations. Try asking: "What is the difference between synchrotron light and normal light?"</p>
-                    
-                    <h4>2. AI Popular Science Dictionary</h4>
-                    <p>Confused by a term? Ask me to explain "Synchrotron", "Beamline", or "Storage Ring" in plain English. I will give you the simplest definition possible.</p>
-                    
-                    <h4>3. AI Custom Learning</h4>
-                    <p>Tell me if you are a student or an adult, and I will recommend the best stories and facts for you. For students, I'll focus on cool visual phenomena; for adults, I'll explain the technological impact.</p>
-                    <p style="font-style: italic; color: rgba(255,255,255,0.7);">Example: Type "I am a student" or "I am an adult" to start personalized learning.</p>
                 `
             }
         };
@@ -443,18 +426,24 @@
         const modalTitle = document.getElementById('modalTitle');
         const modalContent = document.getElementById('modalContent');
         const closeModalBtn = document.getElementById('closeModal');
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
         const nextLabBtn = document.getElementById('nextLabBtn');
         const aiMessage = document.getElementById('aiMessage');
+
+        let currentModule = '';
 
         // Open Modal
         moduleBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                const moduleKey = btn.dataset.module;
-                const data = moduleData[moduleKey];
+                currentModule = btn.dataset.module;
+                const data = moduleData[currentModule];
                 if (data) {
                     modalTitle.textContent = data.title;
                     modalContent.innerHTML = data.content;
                     modal.style.display = 'flex';
+                    chatMessages.innerHTML = `<div class="message ai"><p>Welcome! I'm Dr. Qian Xuesen. Ask me anything about ${data.title}!</p><div class="message-time">Just now</div></div>`;
                 }
             });
         });
@@ -464,14 +453,71 @@
             modal.style.display = 'none';
         });
 
+        // Send Message to AI
+        function sendMessage() {
+            const msg = userInput.value.trim();
+            if (!msg) return;
+
+            appendMessage('user', msg);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+
+            appendMessage('ai', 'Dr. Qian is thinking...');
+
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'question',
+                    module: currentModule,
+                    message: msg
+                })
+            })
+            .then(async res => {
+                const data = await res.json();
+                removeLastAiMessage();
+                if (data.success) {
+                    appendMessage('ai', data.content);
+                } else {
+                    appendMessage('ai', "Even the brightest light meets a shadow sometimes. Let's try asking that differently!");
+                }
+            })
+            .catch(err => {
+                removeLastAiMessage();
+                appendMessage('ai', "The connection to the lab seems unstable. Please try again later.");
+            })
+            .finally(() => {
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+            });
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+        function appendMessage(sender, text) {
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p><div class="message-time">Just now</div>`;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeLastAiMessage() {
+            const messages = chatMessages.querySelectorAll('.message.ai');
+            if (messages.length) {
+                messages[messages.length - 1].remove();
+            }
+        }
+
         // Next Lab Logic
         nextLabBtn.addEventListener('click', () => {
             aiMessage.textContent = "孩子，走到这里，你已经领略了东区的浪漫，西区的理性，接下来，去中区看看吧，那里会指向你这趟旅行的最终答案，我们有缘再见——钱学森。";
-            
             const bubble = document.getElementById('aiBubble');
             bubble.style.opacity = '1';
             bubble.style.transform = 'translateY(0) scale(1)';
-
             setTimeout(() => {
                 window.location.href = 'https://interactive-digital-0k6b.bolt.host/';
             }, 3000);
