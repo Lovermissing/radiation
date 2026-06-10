@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synchrotron Radiation Laboratory - USTC</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            color: #ffffff;
+            position: relative;
+            background: #0a1a2e;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/tf1.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.5) contrast(1.1);
+            z-index: -2;
+        }
+
+        .character-container {
+            position: absolute;
+            left: 2%;
+            bottom: 0;
+            height: 80vh;
+            width: 18%;
+            max-width: 260px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .young-qian {
+            height: 85%;
+            max-height: 580px;
+            min-height: 350px;
+            object-fit: contain;
+            filter: drop-shadow(5px 5px 20px rgba(0,0,0,0.6));
+        }
+
+        .central-frame {
+            position: absolute;
+            top: 50%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+            width: 750px;
+            height: 600px;
+            border: 2px dashed rgba(100, 200, 255, 0.4);
+            border-radius: 12px;
+            z-index: 12;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .lab-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .lab-title h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00BFFF, #1E90FF, #00CED1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .lab-title .subtitle {
+            font-size: 1rem;
+            color: rgba(180, 230, 255, 0.9);
+            letter-spacing: 4px;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .module-btn {
+            background: linear-gradient(145deg, rgba(30, 80, 120, 0.9), rgba(20, 60, 100, 0.85));
+            border: 2px solid rgba(100, 200, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            transform-origin: center center;
+        }
+
+        .module-btn:hover {
+            transform: scale(1.05);
+            border-color: rgba(100, 220, 255, 0.7);
+            box-shadow: 0 12px 35px rgba(0, 120, 220, 0.4);
+        }
+
+        .module-btn h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .module-btn p {
+            font-size: 0.65rem;
+            color: rgba(180, 230, 255, 0.8);
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .next-lab-btn {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            background: linear-gradient(135deg, #0077B6, #005f8a);
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            z-index: 50;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 26, 46, 0.85);
+            backdrop-filter: blur(14px);
+        }
+
+        .modal-container {
+            width: 850px;
+            height: 85vh;
+            background: linear-gradient(145deg, rgba(30, 80, 120, 0.96), rgba(20, 60, 100, 0.93%));
+            border-radius: 24px;
+            border: 3px solid rgba(100, 200, 255, 0.7);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 2px solid rgba(0, 119, 182, 0.15);
+        }
+
+        .modal-header h2 {
+            color: #ffffff;
+            font-size: 1.7rem;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            flex: 1;
+            padding: 28px 32px;
+            overflow-y: auto;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            background: rgba(20, 60, 100, 0.4);
+        }
+
+        .modal-content img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 12px;
+            margin: 15px auto;
+            display: block;
+            border: 2px solid rgba(100, 200, 255, 0.3);
+        }
+
+        .modal-content ul, .modal-content ol {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .modal-content li {
+            margin-bottom: 8px;
+        }
+
+        .chat-interface {
+            border-top: 2px solid rgba(0, 119, 182, 0.6);
+            padding: 16px 24px;
+            background: rgba(20, 60, 100, 0.6);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding: 14px;
+            background: rgba(10, 40, 80, 0.3);
+            border-radius: 14px;
+            min-height: 100px;
+            max-height: 150px;
+        }
+
+        .chat-messages .message {
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 85%;
+            background: rgba(0, 119, 182, 0.7);
+            border-left: 4px solid #00BFFF;
+        }
+
+        .chat-messages .message p {
+            margin: 0;
+            color: #ffffff;
+            font-size: 0.95rem;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 18px;
+            background: rgba(10, 40, 80, 0.6);
+            border: 2px solid rgba(0, 119, 182, 0.6);
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .chat-input button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0077B6, #005f8a);
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Image -->
+    <div class="background"></div>
+    
+    <!-- Young Qian Xuesen Character -->
+    <div class="character-container">
+        <img src="images/1.png" alt="Young Qian Xuesen" class="young-qian" id="qianCharacter">
+    </div>
+    
+    <!-- AI Chat Bubble -->
+    <div class="chat-bubble" id="aiBubble" style="position:absolute; left:22%; top:8%; max-width:400px; background:rgba(230,245,255,0.97); color:#1a5276; padding:16px 22px; border-radius:20px; box-shadow:0 12px 35px rgba(0,0,0,0.4); z-index:20;">
+        <div class="bubble-content">
+            <p id="aiMessage">Welcome to the Synchrotron Radiation Laboratory! I'm Dr. Qian Xuesen. Think of this place as a super microscope that can see atoms and molecules!</p>
+        </div>
+    </div>
+    
+    <!-- Central Frame with Modules -->
+    <div class="central-frame">
+        <div class="lab-title">
+            <h1>🔬 Synchrotron Lab</h1>
+            <p class="subtitle">See the Invisible · Discover the Future</p>
+        </div>
+        
+        <div class="modules-grid">
+            <div class="module-btn" data-module="overview">
+                <h3>Lab Overview</h3>
+                <p>Super microscope for atoms</p>
+            </div>
+            
+            <div class="module-btn" data-module="mission">
+                <h3>Our Mission</h3>
+                <p>Science for daily life</p>
+            </div>
+            
+            <div class="module-btn" data-module="light">
+                <h3>What is Light</h3>
+                <p>World's fastest camera</p>
+            </div>
+            
+            <div class="module-btn" data-module="equipment">
+                <h3>Equipment</h3>
+                <p>Ring & Beamline</p>
+            </div>
+            
+            <div class="module-btn" data-module="research">
+                <h3>Research</h3>
+                <p>Medicine & Energy</p>
+            </div>
+        </div>
+        
+        <button class="back-btn" id="backToHome">← Return to Main Page</button>
+    </div>
+    
+    <!-- Module Detail Modal -->
+    <div class="modal-overlay" id="moduleModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="close-btn" id="closeModal">✕</button>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <!-- Content loaded by JS -->
+            </div>
+            <div class="chat-interface">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message">
+                        <p>Welcome! I'm Dr. Qian Xuesen. Ask me anything about synchrotron science!</p>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Ask Dr. Qian about synchrotron science...">
+                    <button id="sendBtn">Ask AI</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Next Lab Button -->
+    <div class="next-lab-btn" id="nextLabBtn">
+        <span>Next Lab →</span>
+    </div>
+    
+    <script>
+        // Module Data based on your requirements
+        const moduleData = {
+            overview: {
+                title: "Lab Overview",
+                content: "<p>A synchrotron light source is like a <strong>super magnifying glass</strong>, a <strong>super microscope</strong>, and the <strong>world's fastest camera</strong>. It allows us to see things that are too small or happen too fast for normal instruments. It's a tool for everyone, helping us understand the building blocks of our world.</p>"
+            },
+            mission: {
+                title: "Our Mission & Public Value",
+                content: "<p>We focus on real-world problems that matter to you: developing new medicines, creating better batteries, detecting pollution, protecting cultural relics, and testing aerospace materials. This lab helps solve everyday problems through advanced science.</p>"
+            },
+            light: {
+                title: "What is Synchrotron Light?",
+                content: "<p>Compare natural light (candle), laser (pointer), and synchrotron light (searchlight). Synchrotron light is millions of times brighter and can be focused much more precisely. It's like having a camera flash so fast it can freeze the movement of electrons! Applications include medical imaging and material analysis.</p>"
+            },
+            equipment: {
+                title: "Lab Equipment",
+                content: `
+                    <h4>Storage Ring ("Super Runway")</h4>
+                    <img src="images/2.1.jpg" alt="Storage Ring">
+                    <p>This is where electrons run in circles at nearly the speed of light, producing the powerful light we use for experiments.</p>
+                    
+                    <h4>Beamline ("Exclusive Sight")</h4>
+                    <img src="images/2.2.jpg" alt="Beamline">
+                    <p>This is the "highway" for light. It guides the light from the ring to the experiment station, filtering and shaping it perfectly.</p>
+                `
+            },
+            research: {
+                title: "Research Fields for Public",
+                content: `
+                    <ul>
+                        <li><strong>Biomedical Research:</strong> Studying cancer cells and developing new drugs.</li>
+                        <li><strong>Cultural Heritage Protection:</strong> Scanning ancient paintings without touching them.</li>
+                        <li><strong>New Energy & Materials:</strong> Improving batteries for electric cars.</li>
+                        <li><strong>Environmental Detection:</strong> Finding tiny pollutants in water.</li>
+                        <li><strong>Aerospace & Industrial Testing:</strong> Checking if spacecraft parts are strong enough.</li>
+                    </ul>
+                `
+            }
+        };
+
+        // Visit Section Data
+        const visitData = {
+            hall: {
+                title: "Experiment Hall (tf3.jpg)",
+                content: `<img src="images/tf3.jpg" alt="Experiment Hall"><p>The heart of the facility. The round roof covers the storage ring. Yellow cranes maintain the equipment, and scientists work at control stations.</p>`
+            },
+            beamlineArea: {
+                title: "Beamline Transmission (tf.jpg)",
+                content: `<img src="images/tf.jpg" alt="Beamline Area"><p>Silver pipes are vacuum beamlines. They transport light like a highway. Red robotic arms handle maintenance.</p>`
+            },
+            station: {
+                title: "Experiment Station (tf2.jpg)",
+                content: `<img src="images/tf2.jpg" alt="Experiment Station"><p>Where light meets the sample. Foil keeps the chamber stable. Cabinets collect data while blue pipes cool the system.</p>`
+            }
+        };
+
+        // DOM Elements
+        const moduleBtns = document.querySelectorAll('.module-btn');
+        const modal = document.getElementById('moduleModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const closeModalBtn = document.getElementById('closeModal');
+        const nextLabBtn = document.getElementById('nextLabBtn');
+        const aiMessage = document.getElementById('aiMessage');
+
+        // Open Modal
+        moduleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const moduleKey = btn.dataset.module;
+                const data = moduleData[moduleKey];
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalContent.innerHTML = data.content;
+                    modal.style.display = 'flex';
+                }
+            });
+        });
+
+        // Close Modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Next Lab Logic
+        nextLabBtn.addEventListener('click', () => {
+            aiMessage.textContent = "孩子，走到这里，你已经领略了东区的浪漫，西区的理性，接下来，去中区看看吧，那里会指向你这趟旅行的最终答案，我们有缘再见——钱学森。";
+            
+            const bubble = document.getElementById('aiBubble');
+            bubble.style.opacity = '1';
+            bubble.style.transform = 'translateY(0) scale(1)';
+
+            setTimeout(() => {
+                window.location.href = 'https://interactive-digital-0k6b.bolt.host/';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

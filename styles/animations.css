@@ -1,0 +1,183 @@
+/* ==================== KEYFRAME ANIMATIONS ==================== */
+
+/* Floating animation for Qian Xuesen character */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-15px) rotate(0.5deg);
+    }
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-10px) rotate(-0.5deg);
+    }
+}
+
+/* AI Chat Bubble Appearance */
+@keyframes bubbleAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(25px) scale(0.95);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Central Frame Fade In */
+@keyframes modulesAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Overlay Fade In */
+@keyframes fadeInOverlay {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(14px);
+    }
+}
+
+/* Modal Slide Up */
+@keyframes slideUpCenter {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(-10px) scale(1.02);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Chat Message Appearance */
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Text Pulse for Loading States */
+@keyframes pulseText {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Gentle Glow for Interactive Elements */
+@keyframes gentleGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(0, 180, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 180, 255, 0.6);
+    }
+}
+
+/* Fire / Loading Animation */
+@keyframes flameDance {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    25% {
+        transform: translateY(-12px) scale(1.06);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translateY(0) scale(0.95);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(-8px) scale(1.03);
+        opacity: 0.95;
+    }
+}
+
+/* Shimmer Effect for Buttons (Premium Feel) */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* ==================== UTILITY ANIMATION CLASSES ==================== */
+
+.float {
+    animation: float 7s ease-in-out infinite;
+}
+
+.fade-in {
+    animation: fadeInOverlay 0.4s ease forwards;
+}
+
+.slide-up {
+    animation: slideUpCenter 0.5s ease forwards;
+}
+
+.glow {
+    animation: gentleGlow 2.5s ease-in-out infinite;
+}
+
+.pulse {
+    animation: pulseText 2s ease-in-out infinite;
+}
+
+/* ==================== REDUCED MOTION SUPPORT ==================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .float,
+    .slide-up,
+    .fade-in,
+    .glow,
+    .pulse {
+        animation: none !important;
+    }
+
+    .young-qian,
+    .module-btn:hover,
+    .next-lab-btn:hover,
+    .close-btn:hover {
+        transform: none !important;
+    }
+}
