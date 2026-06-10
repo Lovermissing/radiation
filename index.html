@@ -93,7 +93,7 @@
             padding: 18px 24px;
             border-radius: 22px;
             box-shadow: 
-                0 15px 40px rgba(0, 100, 200, 0.4),
+                0 15px 40px rgba(0, 100, 200, 0.35),
                 0 0 0 1px rgba(0, 180, 255, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.5);
             z-index: 20;
@@ -147,7 +147,7 @@
             border-top: 16px solid transparent;
             border-bottom: 16px solid transparent;
             border-right: 20px solid rgba(230, 245, 255, 0.96);
-            filter: drop-shadow(-2px 0 5px rgba(0, 0, 0, 0.2));
+            filter: drop-shadow(-2px 0 5px rgba(0, 100, 200, 0.2));
             z-index: 1;
         }
 
@@ -213,16 +213,15 @@
             font-style: italic;
         }
 
-        /* ==================== MODULE BUTTONS ==================== */
+        /* ==================== MODULE BUTTONS (5 around square) ==================== */
         .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            position: relative;
             width: 100%;
-            margin-bottom: 30px;
+            height: 100%;
         }
 
         .module-btn {
+            position: absolute;
             background: linear-gradient(145deg, 
                 rgba(30, 80, 120, 0.85), 
                 rgba(20, 60, 100, 0.8)
@@ -235,23 +234,7 @@
             transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 8px 25px rgba(0, 50, 100, 0.3);
             transform-origin: center center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .module-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(0, 200, 255, 0.7) 50%, 
-                transparent 100%
-            );
-            transition: all 0.4s ease;
+            min-width: 180px;
         }
 
         .module-btn:hover {
@@ -266,14 +249,6 @@
             transform: scale(1.06);
         }
 
-        .module-btn:hover::before {
-            height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(0, 150, 255, 0.2), 
-                rgba(0, 200, 255, 0.15)
-            );
-        }
-
         .module-btn h3 {
             font-size: 1rem;
             font-weight: 700;
@@ -281,16 +256,37 @@
             text-shadow: 0 2px 8px rgba(0, 150, 255, 0.5);
             line-height: 1.3;
             margin-bottom: 8px;
-            position: relative;
-            z-index: 2;
         }
 
         .module-btn p {
             font-size: 0.7rem;
             color: rgba(180, 230, 255, 0.85);
             line-height: 1.3;
-            position: relative;
-            z-index: 2;
+        }
+
+        /* Positioning 5 buttons around the square */
+        .module-btn:nth-child(1) { /* Top Left */
+            top: 0;
+            left: 0;
+        }
+        .module-btn:nth-child(2) { /* Top Right */
+            top: 0;
+            right: 0;
+        }
+        .module-btn:nth-child(3) { /* Middle Left */
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+        }
+        .module-btn:nth-child(4) { /* Middle Right */
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+        }
+        .module-btn:nth-child(5) { /* Bottom Center */
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         /* ==================== BACK BUTTON ==================== */
@@ -638,8 +634,15 @@
                 min-height: 550px;
             }
             .modules-grid {
+                display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
+                position: static;
+                height: auto;
+            }
+            .module-btn {
+                position: static;
+                transform: none !important;
             }
             .modal-container {
                 height: 90vh;
@@ -670,7 +673,7 @@
         <div class="bubble-arrow"></div>
     </div>
     
-    <!-- Central Frame with Modules -->
+    <!-- Central Frame with 5 Modules around square -->
     <div class="central-frame">
         <div class="lab-title">
             <h1>🔬 Synchrotron Lab</h1>
@@ -678,47 +681,32 @@
         </div>
         
         <div class="modules-grid">
-            <!-- Core Home Section -->
+            <!-- I. Core Homepage -->
             <div class="module-btn" data-module="overview">
                 <h3>Lab Overview</h3>
                 <p>Super microscope for atoms</p>
             </div>
             
             <div class="module-btn" data-module="mission">
-                <h3>Our Mission</h3>
+                <h3>Our Mission & Public Value</h3>
                 <p>Science for daily life</p>
             </div>
             
-            <!-- Science Cognition Section -->
+            <!-- II. Science Cognition -->
             <div class="module-btn" data-module="light">
-                <h3>What is Light</h3>
+                <h3>What is Synchrotron Light?</h3>
                 <p>World's fastest camera</p>
             </div>
             
             <div class="module-btn" data-module="equipment">
-                <h3>Lab Equipment</h3>
+                <h3>Lab Equipment Popular Science</h3>
                 <p>Ring & Beamline</p>
             </div>
             
-            <div class="module-btn" data-module="research">
-                <h3>Research Fields</h3>
-                <p>Medicine & Energy</p>
-            </div>
-
-            <!-- Visit Section (Special) -->
-            <div class="module-btn" data-module="visit-hall">
-                <h3>Visit: Hall</h3>
-                <p>tf3.jpg - Core Area</p>
-            </div>
-
-            <div class="module-btn" data-module="visit-beamline">
-                <h3>Visit: Beamline</h3>
-                <p>tf.jpg - Light Highway</p>
-            </div>
-
-            <div class="module-btn" data-module="visit-station">
-                <h3>Visit: Station</h3>
-                <p>tf2.jpg - Super Lab</p>
+            <!-- III. Visit & IV. Achievements combined -->
+            <div class="module-btn" data-module="visit-research">
+                <h3>Visit & Research Fields</h3>
+                <p>Hall, Beamline, Station & Cases</p>
             </div>
         </div>
         
@@ -756,35 +744,50 @@
     </div>
     
     <script>
-        // Module Data based on your strict requirements
+        // Module Data strictly following your requirements
         const moduleData = {
             overview: {
                 title: "Lab Overview",
-                content: "<p>A synchrotron light source is like a <strong>super magnifying glass</strong>, a <strong>super microscope</strong>, and the <strong>world's fastest camera</strong>. It allows us to see things that are too small or happen too fast for normal instruments. It's a tool for everyone!</p>"
+                content: "<p>A synchrotron light source is like a <strong>super magnifying glass</strong>, a <strong>super microscope</strong>, and the <strong>world's fastest camera</strong>. It allows us to see things that are too small or happen too fast for normal instruments. It's a tool for everyone, helping us understand the building blocks of our world.</p>"
             },
             mission: {
                 title: "Our Mission & Public Value",
-                content: "<p>We focus on real-world problems: new medicines, better batteries, pollution detection, cultural relic protection, and aerospace materials. This lab helps solve everyday problems through advanced science.</p>"
+                content: "<p>We focus on real-world problems that matter to you: developing new medicines, creating better batteries, detecting pollution, protecting cultural relics, and testing aerospace materials. This lab helps solve everyday problems through advanced science.</p>"
             },
             light: {
                 title: "What is Synchrotron Light?",
-                content: "<p>Compare natural light (candle), laser (pointer), and synchrotron light (searchlight). Synchrotron light is millions of times brighter and can be focused much more precisely. It's like having a camera flash so fast it can freeze the movement of electrons!</p>"
+                content: "<p>Compare natural light (candle), laser (pointer), and synchrotron light (searchlight). Synchrotron light is millions of times brighter and can be focused much more precisely. It's like having a camera flash so fast it can freeze the movement of electrons! Applications include medical imaging and material analysis.</p>"
             },
             equipment: {
                 title: "Lab Equipment Popular Science",
                 content: `
                     <h4>Storage Ring ("Super Runway")</h4>
                     <img src="images/2.1.jpg" alt="Storage Ring">
-                    <p>This is where electrons run in circles at nearly the speed of light, producing the powerful light we use.</p>
+                    <p>This is where electrons run in circles at nearly the speed of light, producing the powerful light we use for experiments.</p>
                     
                     <h4>Beamline ("Exclusive Sight")</h4>
                     <img src="images/2.2.jpg" alt="Beamline">
                     <p>This is the "highway" for light. It guides the light from the ring to the experiment station, filtering and shaping it perfectly.</p>
                 `
             },
-            research: {
-                title: "Research Fields for Public",
+            'visit-research': {
+                title: "Visit & Research Fields",
                 content: `
+                    <h4>Visit: Experiment Hall (tf3.jpg)</h4>
+                    <img src="images/tf3.jpg" alt="Experiment Hall">
+                    <p>The heart of the facility. The round roof covers the Storage Ring. Yellow cranes maintain equipment, and scientists work at control stations. It is the core area of our national strategic equipment.</p>
+                    
+                    <h4>Visit: Beamline Transmission (tf.jpg)</h4>
+                    <img src="images/tf.jpg" alt="Beamline Area">
+                    <p>Silver pipes are vacuum beamlines. They transport light like a highway. Red robotic arms handle maintenance. This is the "navigation system" for light.</p>
+                    
+                    <h4>Visit: Experiment Station (tf2.jpg)</h4>
+                    <img src="images/tf2.jpg" alt="Experiment Station">
+                    <p>Where light meets the sample. Foil keeps the chamber stable. Cabinets collect data while blue pipes cool the system. This is the scientist's "Super Laboratory."</p>
+                    
+                    <hr style="margin: 20px 0; border-color: rgba(255,255,255,0.1);">
+                    
+                    <h4>Research Fields for Public</h4>
                     <ul>
                         <li><strong>Biomedical Research:</strong> Studying cancer cells and developing new drugs.</li>
                         <li><strong>Cultural Heritage Protection:</strong> Scanning ancient paintings without touching them.</li>
@@ -792,19 +795,14 @@
                         <li><strong>Environmental Detection:</strong> Finding tiny pollutants in water.</li>
                         <li><strong>Aerospace & Industrial Testing:</strong> Checking if spacecraft parts are strong enough.</li>
                     </ul>
+                    
+                    <hr style="margin: 20px 0; border-color: rgba(255,255,255,0.1);">
+                    
+                    <h4>Public Achievement Stories</h4>
+                    <p><strong>Story 1: Restoring National Treasures</strong><br>Using synchrotron light, we scanned ancient paintings layer by layer without touching them.</p>
+                    <p><strong>Story 2: Vaccine Breakthrough</strong><br>Scientists observed virus protein structures in real-time, accelerating drug development.</p>
+                    <p><strong>Story 3: Better Batteries</strong><br>Watching lithium ions move inside a battery to make them last longer.</p>
                 `
-            },
-            'visit-hall': {
-                title: "Experiment Hall (tf3.jpg)",
-                content: `<img src="images/tf3.jpg" alt="Experiment Hall"><p>The heart of the facility. The round roof covers the Storage Ring. Yellow cranes maintain equipment, and scientists work at control stations. It is the core area of our national strategic equipment.</p>`
-            },
-            'visit-beamline': {
-                title: "Beamline Transmission (tf.jpg)",
-                content: `<img src="images/tf.jpg" alt="Beamline Area"><p>Silver pipes are vacuum beamlines. They transport light like a highway. Red robotic arms handle maintenance. This is the "navigation system" for light.</p>`
-            },
-            'visit-station': {
-                title: "Experiment Station (tf2.jpg)",
-                content: `<img src="images/tf2.jpg" alt="Experiment Station"><p>Where light meets the sample. Foil keeps the chamber stable. Cabinets collect data while blue pipes cool the system. This is the scientist's "Super Laboratory."</p>`
             }
         };
 
@@ -847,9 +845,6 @@
                 window.location.href = 'https://interactive-digital-0k6b.bolt.host/';
             }, 3000);
         });
-
-        // Note: Your existing scripts/main.js will handle the AI chat functionality (fetching /api/chat).
-        // The HTML structure above is compatible with your previous setup.
     </script>
 </body>
 </html>
