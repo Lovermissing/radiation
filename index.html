@@ -169,28 +169,11 @@
             border: 1px solid rgba(100, 200, 255, 0.5);
         }
 
-        /* Circle positions - 4 modules (removed 5th) */
-        /* Radius: 370px */
-        .module-1 { /* Top */
-            top: calc(50% - 385px);
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .module-2 { /* Right */
-            top: 50%;
-            left: calc(50% + 370px);
-            transform: translate(-50%, -50%);
-        }
-        .module-3 { /* Bottom */
-            top: calc(50% + 365px);
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .module-4 { /* Left */
-            top: 50%;
-            left: calc(50% - 370px);
-            transform: translate(-50%, -50%);
-        }
+        /* Circle positions - 4 modules */
+        .module-1 { top: calc(50% - 385px); left: 50%; transform: translate(-50%, -50%); }
+        .module-2 { top: 50%; left: calc(50% + 370px); transform: translate(-50%, -50%); }
+        .module-3 { top: calc(50% + 365px); left: 50%; transform: translate(-50%, -50%); }
+        .module-4 { top: 50%; left: calc(50% - 370px); transform: translate(-50%, -50%); }
 
         .module-1:hover, .module-2:hover, .module-3:hover, .module-4:hover {
             transform: translate(-50%, -50%) scale(1.08);
@@ -400,7 +383,7 @@
                     <h4>Beamline Transmission Area</h4>
                     <img src="images/tf.jpg" alt="Beamline Area">
                     <p>This shows the beamline transmission channel, connecting the storage ring to the experimental stations—the "Highway of Light."</p>
-                    <p><strong>Key Role:</strong> Silver pipes are vacuum beamlines. Light travels through mirrors and monochromators to become "customized light" for experiments.</p>
+                    <p><strong>Key Role:</strong> Silver pipes are vacuum beamlines. Light travels through mirrors and monochromators to become "customized light." Red robotic arms assist in maintenance.</p>
                     <h4>Experiment Station Core Area</h4>
                     <img src="images/tf2.jpg" alt="Experiment Station">
                     <p>This focuses on the core terminal equipment, the scientist's "Super Laboratory."</p>
@@ -512,15 +495,64 @@
             }
         }
 
-        // Next Lab Logic
+        // Next Lab Logic - UPDATED VERSION
         nextLabBtn.addEventListener('click', () => {
-            aiMessage.textContent = "孩子，走到这里，你已经领略了东区的浪漫，西区的理性，接下来，去中区看看吧，那里会指向你这趟旅行的最终答案，我们有缘再见——钱学森。";
             const bubble = document.getElementById('aiBubble');
-            bubble.style.opacity = '1';
-            bubble.style.transform = 'translateY(0) scale(1)';
+            const overlay = document.createElement('div');
+
+            // 1. Create full screen black overlay
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: black;
+                z-index: 9999;
+                opacity: 0;
+                transition: opacity 1.2s ease-in-out;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+                box-sizing: border-box;
+            `;
+            
+            // 2. Create farewell text (English version)
+            const farewellText = document.createElement('p');
+            farewellText.textContent = "My friend, you have witnessed the romance of the East District and the rationality of the West. Now, proceed to the Central District—there lies the final answer to your journey. Until we meet again.";
+            farewellText.style.cssText = `
+                color: white;
+                font-size: 1.8rem;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-weight: 300;
+                letter-spacing: 1px;
+                line-height: 1.6;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 1.5s ease, transform 1.5s ease;
+                max-width: 800px;
+            `;
+            
+            overlay.appendChild(farewellText);
+            document.body.appendChild(overlay);
+
+            // 3. Trigger fade to black
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+            }, 100);
+
+            // 4. Show text after screen is black
+            setTimeout(() => {
+                farewellText.style.opacity = '1';
+                farewellText.style.transform = 'translateY(0)';
+            }, 1300);
+
+            // 5. Redirect after a few seconds
             setTimeout(() => {
                 window.location.href = 'https://interactive-digital-0k6b.bolt.host/';
-            }, 3000);
+            }, 4500);
         });
     </script>
 </body>
