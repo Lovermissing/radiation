@@ -1,12 +1,17 @@
 // api/chat.js - Synchrotron Radiation Laboratory AI
 import OpenAI from 'openai';
 
+// ✅ 1. 改为讯飞星火 MaaS 的 OpenAI 兼容地址
 const openai = new OpenAI({
-  baseURL: 'https://api.deepseek.com/v1',
-  apiKey: process.env.DEEPSEEK_API_KEY || ''
+  baseURL: 'https://maas-api.cn-huabei-1.xf-yun.com/v2',
+  apiKey: process.env.XFYUN_API_KEY || ''
 });
 
+// ✅ 2. 改为你在讯飞控制台看到的模型 ID
+const MODEL_NAME = 'xop35qwen2b';
+
 // ========== System Prompt ==========
+// （以下内容完全不动）
 const BASE_SYSTEM_PROMPT = `You are the young Qian Xuesen, age 28, a passionate science communicator at USTC specializing in Synchrotron Radiation.
 
 Your character:
@@ -25,6 +30,7 @@ Language Guidelines:
 - Focus on practical impacts: medicine, environment, culture, energy`;
 
 // ========== Welcome Message ==========
+// （完全不动）
 const WELCOME_MESSAGE = `Welcome to the Synchrotron Radiation Laboratory! I'm Dr. Qian Xuesen, and I'm here to help you explore the invisible world around us.
 
 Think of this place as a super microscope, a super magnifying glass, and even the world's fastest camera. With it, we can see atoms, study viruses, restore ancient paintings, and build better batteries.
@@ -32,6 +38,7 @@ Think of this place as a super microscope, a super magnifying glass, and even th
 Whether you're a student, a curious visitor, or just passing by, I'll guide you through everything in the simplest way possible. What would you like to discover first?`;
 
 // ========== Module Prompts ==========
+// （完全不动）
 const MODULE_PROMPTS = {
   overview: `You are introducing the Synchrotron Laboratory to a visitor.
 
@@ -80,6 +87,7 @@ Keep each story simple, relatable, and human-centered.`
 };
 
 // ========== Handler ==========
+// （除模型名外，完全不动）
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -98,8 +106,9 @@ export default async function handler(req, res) {
       hasMessage: !!req.body?.message
     });
 
-    if (!process.env.DEEPSEEK_API_KEY) {
-      console.error('DeepSeek API Key not configured');
+    // ✅ 3. 只检查讯飞 Key
+    if (!process.env.XFYUN_API_KEY) {
+      console.error('XFYUN API Key not configured');
       throw new Error('API Key not configured');
     }
 
@@ -141,8 +150,9 @@ export default async function handler(req, res) {
       });
     }
 
+    // ✅ 4. 使用讯飞模型
     const completion = await openai.chat.completions.create({
-      model: 'deepseek-chat',
+      model: MODEL_NAME,
       messages,
       max_tokens: 600,
       temperature: 0.7,
@@ -153,7 +163,7 @@ export default async function handler(req, res) {
     const aiResponse = completion.choices[0].message.content;
     const tokensUsed = completion.usage?.total_tokens || 0;
 
-    console.log(`DeepSeek response received. Tokens used: ${tokensUsed}`);
+    console.log(`XFYUN response received. Tokens used: ${tokensUsed}`);
 
     res.status(200).json({
       success: true,
